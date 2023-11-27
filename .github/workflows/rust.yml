@@ -8,8 +8,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  MYSQL_ROOT_PASSWORD: password
-  MYSQL_DATABASE: test_db
 
 jobs:
   build:
@@ -26,6 +24,10 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
+    env:
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: password
     steps:
       - uses: actions/checkout@v3
       - name: Wait for MySQL
@@ -36,7 +38,7 @@ jobs:
           MYSQL_DATABASE: test_db
         run: |
           sudo /etc/init.d/mysql start
-          mysql -h 127.0.0.1 -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE}};' -u root -p${{ env.MYSQL_ROOT_PASSWORD }}
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       - name: Build
         run: cargo build --verbose
       - name: Run tests
