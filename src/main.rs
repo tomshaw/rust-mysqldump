@@ -53,12 +53,13 @@ async fn run_mysqldump(config: &DatabaseConfig, databases: Vec<String>) -> std::
         if output.status.success() {
             let duration = start.elapsed().as_micros();
             println!("Successfully dumped database: {} (took {} microseconds)", db, duration);
+            
             let filename = format!("{}/{}.sql", &config.db_folder, db);
+            let zip_filename = format!("{}/{}.zip", &config.db_folder, db);
+
             let mut file = File::create(&filename)?;
             file.write_all(&output.stdout)?;
 
-            let filename = format!("{}/{}.sql", &config.db_folder, db);
-            let zip_filename = format!("{}/{}.zip", &config.db_folder, db);
             utils::output::zip_file(&filename, &zip_filename)?;
 
             successful_dumps.push((i, db.to_string(), duration));
