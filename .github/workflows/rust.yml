@@ -29,6 +29,8 @@ jobs:
     - name: Wait for MySQL
       run: sleep 10
     - name: Set up MySQL
+      env:
+        MYSQL_ROOT_PASSWORD: password
       run: |
         sudo /etc/init.d/mysql start
         mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u root -p${{ env.MYSQL_ROOT_PASSWORD }}
