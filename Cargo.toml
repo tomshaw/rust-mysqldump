@@ -2,8 +2,12 @@
 name = "rust_mysqldump"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Tom Shaw <dev@tomshaw.us>"]
+description = "A command-line application for quickly backing up your MySQL databases."
+license = "MIT"
+documentation = "https://docs.rs/rust_mysqldump"
+homepage = "https://github.com/tomshaw/rust-mysqldump"
+repository = "https://github.com/tomshaw/rust-mysqldump"
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
