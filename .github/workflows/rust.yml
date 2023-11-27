@@ -18,24 +18,18 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: test_db
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: ""
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-    env:
-      DB_DATABASE: test_db
-      DB_USER: root
-      DB_PASSWORD: password
     steps:
       - uses: actions/checkout@v3
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE test_db;' --host 127.0.0.1 --port 3306 -u root
-          mysql -e 'SHOW DATABASES;' --host 127.0.0.1 --port 3306 -u root
+          mysql -e 'CREATE DATABASE test_db;' -u root
+          mysql -e 'SHOW DATABASES;' -u root
       - name: Build
         run: cargo build --verbose
       - name: Run tests
