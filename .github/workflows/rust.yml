@@ -26,6 +26,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Wait for MySQL
+      run: sleep 10
     - name: Set up MySQL
       run: |
         sudo /etc/init.d/mysql start
