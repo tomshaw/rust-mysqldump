@@ -34,7 +34,7 @@ jobs:
           MYSQL_DATABASE: test_db
         run: |
           sudo /etc/init.d/mysql start
-          mysql --host=127.0.0.1 --port=33306 -e 'create database test_db;' -u root
+          mysql --host=127.0.0.1 --port=3306 -e 'create database test_db;' -u root
       - name: Build
         run: cargo build --verbose
       - name: Run tests
