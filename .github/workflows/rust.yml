@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Wait for MySQL
-        run: sleep 10
+        run: sleep 20
       - name: Set up MySQL
         env:
           MYSQL_ROOT_PASSWORD: password
