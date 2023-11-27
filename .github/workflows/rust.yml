@@ -20,6 +20,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test_db
+          MYSQL_ROOT_HOST: '%'
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -27,14 +28,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Wait for MySQL
-        run: sleep 20
+        run: sleep 10
       - name: Set up MySQL
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test_db
         run: |
           sudo /etc/init.d/mysql start
-          mysql --host=127.0.0.1 --port=3306 -e 'create database test_db;' -u root
+          mysql -h 127.0.0.1 -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE}};' -u root -p${{ env.MYSQL_ROOT_PASSWORD }}
       - name: Build
         run: cargo build --verbose
+      - name: Run tests
+        run: cargo test --verbose
           
