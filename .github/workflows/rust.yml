@@ -17,26 +17,25 @@ jobs:
     services:
       mysql:
         image: mysql:5.7
+        env:
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
+
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-    env:
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: testdb
-      DB_USERNAME: root
-      DB_PASSWORD: root
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up MySQL
-        run: |
-          sudo systemctl start mysql
-          mysql -e 'CREATE DATABASE testdb;' -uroot -proot
-          mysql -e 'SHOW DATABASES;' -uroot -proot
-      - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
-          
+    - uses: actions/checkout@v3
+    - name: Wait for MySQL
+      run: sleep 10
+    - name: Set up MySQL
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -e 'CREATE DATABASE testdb;' -u root -proot
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
