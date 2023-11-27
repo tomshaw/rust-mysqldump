@@ -25,16 +25,18 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Wait for MySQL
-      run: sleep 10
-    - name: Set up MySQL
-      env:
-        MYSQL_ROOT_PASSWORD: password
-      run: |
-        sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u root -p${{ env.MYSQL_ROOT_PASSWORD }}
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      - uses: actions/checkout@v3
+      - name: Wait for MySQL
+        run: sleep 10
+      - name: Set up MySQL
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test_db
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u root -p${{ env.MYSQL_ROOT_PASSWORD }}
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo test --verbose
+          
