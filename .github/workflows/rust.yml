@@ -18,6 +18,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
+          MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: test_db
         ports:
           - 3306:3306
@@ -27,11 +28,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set up MySQL
       env:
-        DB_PASSWORD: root
         DB_DATABASE: test_db
       run: |
         sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE}};' -u root -p${{ env.DB_PASSWORD }}
+        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE}};' -u root
     - name: Build
       run: cargo build --verbose
     - name: Run tests
