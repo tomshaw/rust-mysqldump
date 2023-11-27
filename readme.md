@@ -1,5 +1,8 @@
 # Rust MySQL Dump 🚀
 
+![Build](https://github.com/tomshaw/rust-mysqldump/actions/workflows/rust.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Rust MySQL Dump is a command-line application for quickly backing up your MySQL databases. It supports exporting multiple databases in a single operation, runs asynchronously and is extremely fast. Outputs export information as each operation completes. Tested on moderate to large size databases without any problems.
 
 ## Features
