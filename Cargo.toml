@@ -1,6 +1,6 @@
 [package]
 name = "rust_mysqldump"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Tom Shaw <dev@tomshaw.us>"]
 description = "A command-line application for quickly backing up your MySQL databases."
